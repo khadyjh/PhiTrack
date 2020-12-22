@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Phitrack01</string>
+    <string name="btnDriver">Iam a Driver </string>
+    <string name="btnPassenger">Iam a Passenger</string>
+    <string name="tvDLogin">Driver log in </string>
+    <string name="tvId">User Id </string>
+    <string name="tvPass"> Password </string>
+    <string name="btnlogin">Log in </string>
+    <string name="tvPLogin">Passenger log in </string>
+    <string name="btnRegister"> Register </string>
+    <string name="tvRegister">dont have account? sign up </string>
+
+</resources>
