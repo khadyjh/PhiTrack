@@ -172,10 +172,11 @@ public class PassengerLoginActivity extends AppCompatActivity {
                                 startActivity(Passengermap);
                                 Toast.makeText(PassengerLoginActivity.this, "successfull Registration", Toast.LENGTH_SHORT).show();
                                 loadingBar1.dismiss();
-                            }else {
+                            }else
+                                {
                                 Toast.makeText(PassengerLoginActivity.this, "unsuccessful Registration", Toast.LENGTH_SHORT).show();
                                 loadingBar1.dismiss();
-                            }
+                                }
 
                         }
                     });
