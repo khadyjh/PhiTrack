@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Phitrack02</string>
+    <string name="tvDriver">Iam Driver</string>
+    <string name="tvPassenger">Iam Passenger </string>
+    <string name="tvDriverlogin">Driver LogIn </string>
+    <string name="tvPassengerlogin">Passenger LogIn </string>
+    <string name="EmailHint">Insert Email...</string>
+    <string name="PasswordHint1">Insert Password...</string>
+    <string name="btnLogin">log In</string>
+    <string name="tvLink">dont have account? sign up</string>
+    <string name="btnRegister">Register </string>
+    <string name="confirm"> Confirm your Password</string>
+    <string name="title_activity_driver_maps">Map</string>
+    <string name="btnMap">Settings</string>
+    <string name="btnMap1">log out</string>
+</resources>
