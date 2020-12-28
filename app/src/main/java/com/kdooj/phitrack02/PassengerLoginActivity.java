@@ -116,6 +116,7 @@ public class PassengerLoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful())
                             {
+
                                 Toast.makeText(PassengerLoginActivity.this, "successfull Login", Toast.LENGTH_SHORT).show();
                                 loadingBar1.dismiss();
                             }else {
@@ -162,13 +163,13 @@ public class PassengerLoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful())
                             {
-                               mAuth1=FirebaseAuth.getInstance();
+                               /*mAuth1=FirebaseAuth.getInstance();
                                 OnPassengerId=mAuth1.getCurrentUser().getUid();
                                 PassengerDatabaseRef= FirebaseDatabase.getInstance().getReference()
                                         .child("Users").child("Passengers").child(OnPassengerId);
 
-                                PassengerDatabaseRef.setValue(true);
-                                Intent Passengermap=new Intent(PassengerLoginActivity.this,MainActivity.class);
+                                PassengerDatabaseRef.setValue(true);*/
+                                Intent Passengermap=new Intent(PassengerLoginActivity.this,PassengerMapsActivity.class);
                                 startActivity(Passengermap);
                                 Toast.makeText(PassengerLoginActivity.this, "successfull Registration", Toast.LENGTH_SHORT).show();
                                 loadingBar1.dismiss();

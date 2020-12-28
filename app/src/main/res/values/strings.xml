@@ -13,4 +13,5 @@
     <string name="title_activity_driver_maps">Map</string>
     <string name="btnMap">Settings</string>
     <string name="btnMap1">log out</string>
+    <string name="title_activity_passenger_maps">Map</string>
 </resources>
