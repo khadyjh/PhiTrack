@@ -29,6 +29,7 @@ public class PassengerLoginActivity extends AppCompatActivity {
     private EditText PasengerPassword;
     private EditText PasengerPassword1;
     private FirebaseAuth mAuth1;
+   // private  FirebaseAuth mAAA;
     private ProgressDialog loadingBar1;
     private DatabaseReference PassengerDatabaseRef;
     private String OnPassengerId;
@@ -38,7 +39,7 @@ public class PassengerLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passenger_login);
 
-
+       mAuth1=FirebaseAuth.getInstance();
 
         btnPassengerLogin=findViewById(R.id.btnPassengerLogin);
         btnPassengerRegister=findViewById(R.id.btnPassengerRegister);
@@ -61,6 +62,8 @@ public class PassengerLoginActivity extends AppCompatActivity {
                 btnPassengerLogin.setVisibility(View.INVISIBLE);
                 tvPassengerLink.setVisibility(View.INVISIBLE);
                 tvPassengerlogin.setText("Passenger Registeration");
+                PasengerPassword.setText("");
+                PassengerEmail.setText("");
                 btnPassengerRegister.setVisibility(View.VISIBLE);
                 btnPassengerRegister.setEnabled(true);
                 PasengerPassword1.setVisibility(View.VISIBLE);
@@ -116,9 +119,12 @@ public class PassengerLoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful())
                             {
-
                                 Toast.makeText(PassengerLoginActivity.this, "successfull Login", Toast.LENGTH_SHORT).show();
                                 loadingBar1.dismiss();
+                                Intent passmap=new Intent(PassengerLoginActivity.this,PassengerMapsActivity.class);
+                                startActivity(passmap);
+
+
                             }else {
                                 Toast.makeText(PassengerLoginActivity.this, "unsuccessful Login", Toast.LENGTH_SHORT).show();
                                 loadingBar1.dismiss();
@@ -163,16 +169,17 @@ public class PassengerLoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful())
                             {
-                               /*mAuth1=FirebaseAuth.getInstance();
+                               mAuth1=FirebaseAuth.getInstance();
                                 OnPassengerId=mAuth1.getCurrentUser().getUid();
                                 PassengerDatabaseRef= FirebaseDatabase.getInstance().getReference()
                                         .child("Users").child("Passengers").child(OnPassengerId);
 
-                                PassengerDatabaseRef.setValue(true);*/
+                                PassengerDatabaseRef.setValue(true);
                                 Intent Passengermap=new Intent(PassengerLoginActivity.this,PassengerMapsActivity.class);
                                 startActivity(Passengermap);
                                 Toast.makeText(PassengerLoginActivity.this, "successfull Registration", Toast.LENGTH_SHORT).show();
                                 loadingBar1.dismiss();
+
                             }else
                                 {
                                 Toast.makeText(PassengerLoginActivity.this, "unsuccessful Registration", Toast.LENGTH_SHORT).show();

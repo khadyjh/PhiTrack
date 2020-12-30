@@ -33,7 +33,6 @@ public class DriverLoginActivity extends AppCompatActivity {
     private EditText DriverPassword1;
     private FirebaseAuth mAuth;
     private ProgressDialog loadingBar;
-
     private DatabaseReference DriverDatabaseRef;
     private String OnDriverId;
 
@@ -177,6 +176,7 @@ public class DriverLoginActivity extends AppCompatActivity {
                                  DriverDatabaseRef= FirebaseDatabase.getInstance().getReference()
                                          .child("Users").child("Drivers").child(OnDriverId);
                                  DriverDatabaseRef.setValue(true);
+
                                  Intent drivermap=new Intent(DriverLoginActivity.this,DriverMapsActivity.class);
                                  startActivity(drivermap);
 

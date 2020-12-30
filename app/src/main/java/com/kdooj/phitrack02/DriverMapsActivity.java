@@ -160,14 +160,34 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
 
     @Override
     public void onLocationChanged(Location location) {
+        if(getApplicationContext() != null)
+        {
+            lastlocation=location;
+            LatLng latLng=new LatLng(location.getLatitude(),location.getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
 
-        LocationHelper helper=new LocationHelper(
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            DatabaseReference DriverAvailableRef = FirebaseDatabase.getInstance().getReference("Drivers Available");
+
+            GeoFire geoFireAval=new GeoFire(DriverAvailableRef);
+            DatabaseReference DriverWorkingRef =FirebaseDatabase.getInstance().getReference().child("Drivers Working");
+            GeoFire geoFireWork=new GeoFire(DriverWorkingRef);
+
+            geoFireAval.setLocation(userId,new GeoLocation(location.getLatitude(),location.getLongitude()));
+            geoFireWork.setLocation(userId,new GeoLocation(location.getLatitude(),location.getLongitude()));
+        }
+
+
+
+
+        /*LocationHelper helper=new LocationHelper(
           location.getLatitude(),
           location.getLongitude()
         );
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        FirebaseDatabase.getInstance().getReference("Available").child(userId).child("Location").setValue(helper)
+        FirebaseDatabase.getInstance().getReference("Available Driver").child(userId).child("Location").setValue(helper)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -198,9 +218,10 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
         mMap.animateCamera(CameraUpdateFactory.zoomBy(14));
         if (googleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
-        }
+        }*/
 
         //GLocation(location);
+
 
 
     }
@@ -226,7 +247,7 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
     @Override
     protected void onStop() {
         super.onStop();
-        //String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         if(!CurrentDriverLogoutStatus) {
 
             DisconnectDriver();
@@ -238,8 +259,11 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     private void DisconnectDriver() {
-        DatabaseReference DriverAvailableRef = FirebaseDatabase.getInstance().getReference("Available");
-        DriverAvailableRef.removeValue();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference DriverAvailableRef = FirebaseDatabase.getInstance().getReference("Available Driver");
+        GeoFire geoFire = new GeoFire(DriverAvailableRef);
+        geoFire.removeLocation(userId);
+        // DriverAvailableRef.removeValue();
     }
 
 
