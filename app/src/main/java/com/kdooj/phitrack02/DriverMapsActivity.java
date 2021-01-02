@@ -36,8 +36,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCallback
         , GoogleApiClient.ConnectionCallbacks
@@ -55,6 +60,8 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private boolean CurrentDriverLogoutStatus=false;
+    private DatabaseReference AssignedPassengerRef,AssignedPassengerPickupRef;
+    private String DriverId,PassengerId="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +73,7 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
         }
         mAuth=FirebaseAuth.getInstance();
         currentUser=mAuth.getCurrentUser();
+        DriverId=mAuth.getCurrentUser().getUid();
         DriverlogOutBtn=findViewById(R.id.btnDriverLogout);
         DriverSettingBtn=findViewById(R.id.btnDriverSetting);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -82,6 +90,64 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
                 LogoutDriver();
             }
         });
+
+        GetAssignedPassengerReq();
+    }
+
+    private void GetAssignedPassengerReq()
+    {
+        AssignedPassengerRef=FirebaseDatabase.getInstance().getReference().child("Users")
+                .child("Drivers").child(DriverId).child("Passenger Ride Id");
+        AssignedPassengerRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot)
+            {
+                if(snapshot.exists())
+                {
+                    PassengerId=snapshot.getValue().toString();
+                    GetAssignedPassengerPickUpLocation();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void GetAssignedPassengerPickUpLocation()
+    {
+        AssignedPassengerPickupRef=FirebaseDatabase.getInstance().getReference().child("Passengers Request")
+                .child(PassengerId).child("l");
+        AssignedPassengerPickupRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot)
+            {
+                List<Object>PassengerLocationMap=(List<Object>)snapshot.getValue();
+                double locationLat =0;
+                double locationLng =0;
+
+
+                if(PassengerLocationMap.get(0) != null)
+                {
+                    locationLat=Double.parseDouble(PassengerLocationMap.get(0).toString());
+                }
+                if(PassengerLocationMap.get(1) != null)
+                {
+                    locationLng=Double.parseDouble(PassengerLocationMap.get(1).toString());
+                }
+                LatLng DriverLatLng=new LatLng(locationLat,locationLng);
+                mMap.addMarker(new MarkerOptions().position(DriverLatLng).title("PickUp Location"));
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     private void LogoutDriver() {
@@ -174,8 +240,19 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
             DatabaseReference DriverWorkingRef =FirebaseDatabase.getInstance().getReference().child("Drivers Working");
             GeoFire geoFireWork=new GeoFire(DriverWorkingRef);
 
-            geoFireAval.setLocation(userId,new GeoLocation(location.getLatitude(),location.getLongitude()));
-            geoFireWork.setLocation(userId,new GeoLocation(location.getLatitude(),location.getLongitude()));
+            switch (PassengerId)
+            {
+                case "":
+                    geoFireWork.removeLocation(userId);
+                    geoFireAval.setLocation(userId,new GeoLocation(location.getLatitude(),location.getLongitude()));
+                    break;
+                default:
+                    geoFireAval.removeLocation(userId);
+                    geoFireWork.setLocation(userId,new GeoLocation(location.getLatitude(),location.getLongitude()));
+                    break;
+            }
+
+
         }
 
 

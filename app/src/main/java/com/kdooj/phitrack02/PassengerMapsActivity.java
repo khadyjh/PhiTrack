@@ -80,7 +80,7 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
         mAuth2=FirebaseAuth.getInstance();
         currentUser=mAuth2.getCurrentUser();
         PassengerID=FirebaseAuth.getInstance().getCurrentUser().getUid();
-        PassengerDatabaseRef=FirebaseDatabase.getInstance().getReference().child("Passenger Request");
+        PassengerDatabaseRef=FirebaseDatabase.getInstance().getReference().child("Passengers Request");
         DriverAvailableRef=FirebaseDatabase.getInstance().getReference().child("Available Driver");
         DriverLocationRef=FirebaseDatabase.getInstance().getReference().child("Drivers Working");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
