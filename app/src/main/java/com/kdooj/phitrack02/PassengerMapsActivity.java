@@ -49,22 +49,22 @@ import java.util.List;
 public class PassengerMapsActivity extends FragmentActivity implements OnMapReadyCallback
         , GoogleApiClient.ConnectionCallbacks
         , GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        com.google.android.gms.location.LocationListener {
 
     private GoogleMap mMap;
     GoogleApiClient googleApiClient;
     Location lastlocation;
     LocationRequest locationRequest;
-    private Marker currentUsersLocationMarker;
-    private static final int Request_User_Location_Code = 99;
+    //private Marker currentUsersLocationMarker;
+  //  private static final int Request_User_Location_Code = 99;
     private FirebaseAuth mAuth2;
-    private FirebaseUser currentUser;
-    private boolean CurrentDriverLogoutStatus=false;
+   // private FirebaseUser currentUser;
+
     private Button btnPassengerLogout;
     private  Button btnStart;
     private  DatabaseReference DriverAvailableRef;
     private LatLng PassengerPikupLocation;
-    private  int redius=1;
+    private  int radius=1;
     private boolean DriverFound=false;
     private String DriverFoundId;
     private String PassengerID;
@@ -78,7 +78,7 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
         setContentView(R.layout.activity_passenger_maps);
 
         mAuth2=FirebaseAuth.getInstance();
-        currentUser=mAuth2.getCurrentUser();
+       // currentUser=mAuth2.getCurrentUser();
         PassengerID=FirebaseAuth.getInstance().getCurrentUser().getUid();
         PassengerDatabaseRef=FirebaseDatabase.getInstance().getReference().child("Passengers Request");
         DriverAvailableRef=FirebaseDatabase.getInstance().getReference().child("Available Driver");
@@ -86,7 +86,7 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync( this );
 
         //DriverLocationRef=FirebaseDatabase.getInstance().getReference().child("Available Driver");
 
@@ -97,17 +97,12 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
             @Override
             public void onClick(View v)
             {
-
-
-
                 GeoFire geoFire=new GeoFire(PassengerDatabaseRef);
                 geoFire.setLocation(PassengerID,new GeoLocation(lastlocation.getLatitude(),lastlocation.getLongitude()));
                 PassengerPikupLocation =new LatLng(lastlocation.getLatitude(),lastlocation.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(PassengerPikupLocation).title("Pikup Passenger from here"));
+                mMap.addMarker(new MarkerOptions().position(PassengerPikupLocation).title("Pickup Passenger from here"));
                 btnStart.setText("Getting your bus...");
                 GetClosestBus();
-
-
             }
         });
 
@@ -123,7 +118,7 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
     private void GetClosestBus()
     {
         GeoFire geofire=new GeoFire(DriverAvailableRef);
-        GeoQuery geoQuery=geofire.queryAtLocation(new GeoLocation(PassengerPikupLocation.latitude,PassengerPikupLocation.longitude),redius);
+        GeoQuery geoQuery=geofire.queryAtLocation(new GeoLocation(PassengerPikupLocation.latitude,PassengerPikupLocation.longitude),radius);
         geoQuery.removeAllListeners();
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
@@ -136,11 +131,11 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
 
                     DriverRef =FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(DriverFoundId);
                     HashMap driverMap=new HashMap();
-                    driverMap.put("Passenger Ride Id",PassengerID);
+                    driverMap.put("PassengerRideId",PassengerID);
                     DriverRef.updateChildren(driverMap);
 
                     GettingDriverLocation();
-                    btnStart.setText("Looking for Driver");
+                    btnStart.setText("Looking for Driver...");
                 }
             }
 
@@ -159,7 +154,7 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
             {
                 if(!DriverFound)
                 {
-                    redius=redius+1;
+                    radius=radius+1;
                     GetClosestBus();
                 }
             }
@@ -170,9 +165,6 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
 
             }
         });
-
-
-
     }
 
     private void GettingDriverLocation()
@@ -212,7 +204,7 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
                             location2.setLongitude(DriverLatLng.longitude);
 
                             float Distance = location1.distanceTo(location2);
-                            btnStart.setText("Driver Found " +String.valueOf(Distance));
+                            btnStart.setText("Driver Found " + String.valueOf(Distance));
 
                             DriverMark=mMap.addMarker(new MarkerOptions().position(DriverLatLng).title("Your Driver is here"));
 
@@ -227,12 +219,7 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
 
     }
 
-    private void LogoutPassenger()
-    {
-        Intent logoutIntent=new Intent(PassengerMapsActivity.this,PassengerLoginActivity.class);
-        logoutIntent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(logoutIntent);
-    }
+
 
 
     @Override
@@ -253,7 +240,7 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
         locationRequest = new LocationRequest();
         locationRequest.setInterval(1000);
         locationRequest.setFastestInterval(1000);
-        locationRequest.setPriority(locationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
         }
@@ -292,11 +279,11 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
                 });*/
 
         lastlocation = location;
-        if (currentUsersLocationMarker != null) {
+       /* if (currentUsersLocationMarker != null) {
             currentUsersLocationMarker.remove();
-        }
+        }*/
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions();
+       /* MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("PickUp Passenger From here");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
@@ -305,7 +292,7 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
 
 
 
-        currentUsersLocationMarker = mMap.addMarker(markerOptions);
+        currentUsersLocationMarker = mMap.addMarker(markerOptions);*/
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomBy(14));
         if (googleApiClient != null) {
@@ -329,5 +316,12 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
         super.onStop();
 
 
+    }
+    private void LogoutPassenger()
+    {
+        Intent logoutIntent=new Intent(PassengerMapsActivity.this,PassengerLoginActivity.class);
+        logoutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(logoutIntent);
+        finish();
     }
 }

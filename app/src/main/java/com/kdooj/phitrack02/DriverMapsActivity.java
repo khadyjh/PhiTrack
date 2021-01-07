@@ -47,7 +47,7 @@ import java.util.List;
 public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCallback
         , GoogleApiClient.ConnectionCallbacks
         , GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        com.google.android.gms.location.LocationListener {
 
     private GoogleMap mMap;
     GoogleApiClient googleApiClient;
@@ -97,7 +97,7 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
     private void GetAssignedPassengerReq()
     {
         AssignedPassengerRef=FirebaseDatabase.getInstance().getReference().child("Users")
-                .child("Drivers").child(DriverId).child("Passenger Ride Id");
+                .child("Drivers").child(DriverId).child("PassengerRideId");
         AssignedPassengerRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot)
@@ -124,6 +124,8 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot)
             {
+                if(snapshot.exists())
+                {
                 List<Object>PassengerLocationMap=(List<Object>)snapshot.getValue();
                 double locationLat =0;
                 double locationLng =0;
@@ -139,6 +141,7 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
                 }
                 LatLng DriverLatLng=new LatLng(locationLat,locationLng);
                 mMap.addMarker(new MarkerOptions().position(DriverLatLng).title("PickUp Location"));
+                }
 
             }
 
@@ -150,12 +153,7 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
 
     }
 
-    private void LogoutDriver() {
-        Intent logoutIntent=new Intent(DriverMapsActivity.this,DriverLoginActivity.class);
-        logoutIntent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(logoutIntent);
 
-    }
 
 
     @Override
@@ -175,7 +173,7 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
         locationRequest = new LocationRequest();
         locationRequest.setInterval(1000);
         locationRequest.setFastestInterval(1000);
-        locationRequest.setPriority(locationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
         }
@@ -230,13 +228,20 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
         {
             lastlocation=location;
             LatLng latLng=new LatLng(location.getLatitude(),location.getLongitude());
+
+
+           /* MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(latLng);
+            markerOptions.title("Driver current location");
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+            currentUsersLocationMarker = mMap.addMarker(markerOptions);*/
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
-
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            DatabaseReference DriverAvailableRef = FirebaseDatabase.getInstance().getReference("Drivers Available");
-
+            DatabaseReference DriverAvailableRef = FirebaseDatabase.getInstance().getReference("Available Driver");
             GeoFire geoFireAval=new GeoFire(DriverAvailableRef);
+
             DatabaseReference DriverWorkingRef =FirebaseDatabase.getInstance().getReference().child("Drivers Working");
             GeoFire geoFireWork=new GeoFire(DriverWorkingRef);
 
@@ -320,19 +325,20 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
         googleApiClient.connect();
 
     }
+    private void LogoutDriver() {
+        Intent logoutIntent=new Intent(DriverMapsActivity.this,DriverLoginActivity.class);
+        logoutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(logoutIntent);
+        finish();
 
+    }
     @Override
     protected void onStop() {
         super.onStop();
-
         if(!CurrentDriverLogoutStatus) {
 
             DisconnectDriver();
         }
-
-        //GeoFire geoFire = new GeoFire(DriverAvailableRef);
-       // geoFire.removeLocation(userId);
-
     }
 
     private void DisconnectDriver() {
@@ -340,7 +346,6 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
         DatabaseReference DriverAvailableRef = FirebaseDatabase.getInstance().getReference("Available Driver");
         GeoFire geoFire = new GeoFire(DriverAvailableRef);
         geoFire.removeLocation(userId);
-        // DriverAvailableRef.removeValue();
     }
 
 

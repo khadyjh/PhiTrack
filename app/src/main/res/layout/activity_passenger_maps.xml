@@ -1,55 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:background="#B0D4F1"
+    android:orientation="vertical"
+    tools:context=".PassengerMapsActivity">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="682dp"
+        android:layout_below="@+id/btnLay"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="-7dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="8dp" />
 
     <LinearLayout
+        android:id="@+id/btnLay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnPassengerSetting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="195dp"
+            android:layout_height="52dp"
             android:layout_weight="1"
             android:text="@string/btnMap"
-            android:textSize="20sp"
-            map:backgroundTint="#8BC34A"
-            android:textAllCaps="false"/>
+            android:textAllCaps="false"
+            android:textSize="20sp" />
+
 
         <Button
             android:id="@+id/btnPassengerLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="196dp"
+            android:layout_height="52dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:text="@string/btnMap1"
+            android:textAllCaps="false"
             android:textSize="20sp"
-            map:backgroundTint="#8BC34A"
-            android:textAllCaps="false"/>
+            />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="430dp">
-
-        <fragment
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".PassengerMapsActivity" />
-    </LinearLayout>
 
     <Button
         android:id="@+id/btnStart"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="61dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-1dp"
+        android:layout_marginLeft="-1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="0dp"
         android:text="Start"
+        android:textAllCaps="false"
         android:textSize="20sp"
-        map:backgroundTint="#8BC34A"
-        android:textAllCaps="false"/>
-</LinearLayout>
+        map:backgroundTint="#8BC34A" />
+
+
+</RelativeLayout>
