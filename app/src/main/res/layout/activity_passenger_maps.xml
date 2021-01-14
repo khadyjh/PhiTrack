@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#B0D4F1"
+    android:background="#2196F3"
     android:orientation="vertical"
     tools:context=".PassengerMapsActivity">
 
@@ -36,7 +36,8 @@
             android:layout_weight="1"
             android:text="@string/btnMap"
             android:textAllCaps="false"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            map:backgroundTint="#2196F3"/>
 
 
         <Button
@@ -48,6 +49,7 @@
             android:text="@string/btnMap1"
             android:textAllCaps="false"
             android:textSize="20sp"
+            map:backgroundTint="#2196F3"
             />
     </LinearLayout>
 
@@ -69,7 +71,7 @@
         android:text="Start"
         android:textAllCaps="false"
         android:textSize="20sp"
-        map:backgroundTint="#8BC34A" />
+        map:backgroundTint="#2196F3" />
 
 
 </RelativeLayout>

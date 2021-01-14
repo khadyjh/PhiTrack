@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,6 +34,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,7 +62,6 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
   //  private static final int Request_User_Location_Code = 99;
     private FirebaseAuth mAuth2;
    // private FirebaseUser currentUser;
-
     private Button btnPassengerLogout;
     private  Button btnStart;
     private  DatabaseReference DriverAvailableRef;
@@ -207,6 +209,10 @@ public class PassengerMapsActivity extends FragmentActivity implements OnMapRead
                             btnStart.setText("Driver Found " + String.valueOf(Distance));
 
                             DriverMark=mMap.addMarker(new MarkerOptions().position(DriverLatLng).title("Your Driver is here"));
+                            Polyline line = mMap.addPolyline(new PolylineOptions()
+                                    .add(PassengerPikupLocation, new LatLng(locationLat, locationLng))
+                                    .width(5)
+                                    .color(Color.RED));
 
                         }
                     }

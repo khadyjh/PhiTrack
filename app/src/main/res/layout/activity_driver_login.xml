@@ -5,14 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DriverLoginActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="146dp"
+        android:src="@drawable/phitrack">
+
+    </ImageView>
 
     <TextView
         android:id="@+id/tv_Deiverlogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="40dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="@string/tvDriverlogin"
         android:textColor="@color/black"
@@ -42,7 +49,8 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="@string/confirm"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textAllCaps="false"/>
 
     <Button
         android:id="@+id/btnDriverLogin"
@@ -50,7 +58,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/btnLogin"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:backgroundTint="#2196F3"
+        android:textAllCaps="false"/>
 
     <TextView
         android:id="@+id/tvDriverlink"
@@ -59,13 +69,15 @@
         android:gravity="center_horizontal"
         android:text="@string/tvLink"
         android:textColor="@android:color/holo_red_dark"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        />
 
     <Button
         android:id="@+id/btnDriverRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:backgroundTint="#2196F3"
         android:text="@string/btnRegister"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:textAllCaps="false"/>
 </LinearLayout>

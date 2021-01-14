@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SetingActivity2">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/barlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#2196F3">
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarlay"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:background="#2196F3"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/closebtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:srcCompat="@android:drawable/ic_delete"
+                    app:tint="@color/white" />
+
+                <ImageView
+                    android:id="@+id/saveBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginRight="6dp"
+                    app:srcCompat="@android:drawable/ic_menu_save"
+                    app:tint="@color/white">
+
+                </ImageView>
+
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/profile"
+        app:civ_border_color="@color/black"
+        app:civ_border_width="3dp"/>
+
+    <TextView
+        android:id="@+id/tvChangeImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:text="@string/tvSet"
+        android:textColor="@color/black"
+        >
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/edtDriveName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="your name"
+        android:inputType="text"
+        android:textColor="@color/black">
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/edtDrivPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:ems="10"
+        android:hint="your phone number "
+        android:inputType="phone"
+        android:textColor="@color/black" />
+
+    <EditText
+        android:id="@+id/edtBusNum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:ems="10"
+        android:hint="your Bus number "
+        android:inputType="text"
+        android:textColor="@color/black" />
+
+</LinearLayout>

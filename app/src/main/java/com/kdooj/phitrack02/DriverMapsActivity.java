@@ -92,6 +92,15 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
         });
 
         GetAssignedPassengerReq();
+
+        DriverSettingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent setIntent=new Intent(DriverMapsActivity.this,SetingActivity2.class);
+                setIntent.putExtra("type","Drivers");
+                startActivity(setIntent);
+            }
+        });
     }
 
     private void GetAssignedPassengerReq()

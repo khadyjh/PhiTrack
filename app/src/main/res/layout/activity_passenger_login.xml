@@ -8,16 +8,23 @@
     tools:context=".DriverLoginActivity">
 
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="146dp"
+        android:src="@drawable/phitrack">
+
+    </ImageView>
+
     <TextView
         android:id="@+id/tvPassengerLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="40dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="@string/tvPassengerlogin"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:textAllCaps="false"/>
 
     <EditText
         android:id="@+id/edtPassengerEmail"
@@ -51,7 +58,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/btnLogin"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:backgroundTint="#2196F3"
+        android:textAllCaps="false"
+       />
 
     <TextView
         android:id="@+id/tvPassengerlink"
@@ -66,7 +76,8 @@
         android:id="@+id/btnPassengerRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="@string/btnRegister"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:backgroundTint="#2196F3"
+        android:textAllCaps="false"/>
 </LinearLayout>

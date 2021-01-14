@@ -7,15 +7,22 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="299dp"
+        android:src="@drawable/phitrack">
+
+    </ImageView>
+
     <Button
         android:id="@+id/btn_Driver"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
         android:layout_marginBottom="20dp"
+        android:backgroundTint="#2196F3"
         android:text="@string/tvDriver"
         android:textSize="20sp"
-        />
+        android:textAllCaps="false"/>
 
     <Button
         android:id="@+id/btn_Passenger"
@@ -23,5 +30,7 @@
         android:layout_height="wrap_content"
         android:text="@string/tvPassenger"
         android:textSize="20sp"
+        android:backgroundTint="#2196F3"
+        android:textAllCaps="false"
         />
 </LinearLayout>
